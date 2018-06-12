@@ -7,7 +7,8 @@
 //
 
 #import "AppDelegate.h"
-
+#import "ngg_webViewController.h"
+#import "ngg_commonMacro.h"
 @interface AppDelegate ()
 
 @end
@@ -17,6 +18,11 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    _window = [[UIWindow alloc] initWithFrame:SCREEN_BOUNDS];
+    ngg_webViewController *controller = [ngg_webViewController new];
+    _window.rootViewController = controller;
+    [_window makeKeyAndVisible];
     return YES;
 }
 
@@ -28,8 +34,8 @@
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+
+        [[NSNotificationCenter defaultCenter] postNotificationName:kScreenCallbackNotification object:nil userInfo:@{@"code" : @0}];
 }
 
 
@@ -40,6 +46,10 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kScreenCallbackNotification object:nil userInfo:@{@"code" : @1}];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+
 }
 
 
